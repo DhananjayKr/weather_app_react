@@ -63,11 +63,12 @@ h1 {
 
 .container {
   max-width: 700px;
-  height: 641px;
+  height: 600px;
   margin: auto;
   padding: 0 1rem;
   position: relative;
-  top: 10%;
+  top: 12%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -126,6 +127,47 @@ h1 {
 }
 
 
+/* suggestions css */
+
+.suggestions {
+  max-height: 60px; /* Show only two suggestions (adjust based on your item height) */
+  overflow-y: auto;
+  position:  absolute; /* Ensure dropdown appears below the input */
+  background-color:auto; /* Set a background color */
+  z-index: 1000; /* Ensure it appears above other elements */
+  width: 60%;
+  left: 50%; /* Centering */
+  transform: translateX(-50%); /* Centering */
+  font-size: 0.8rem;
+  margin: 10px auto;  
+}
+
+/* Thinner scrollbar */
+.suggestions::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar */
+  border-radius: 3px; /* Rounded corners */
+}
+
+.suggestions::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the scrollbar on hover */
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  border-radius: 20px;
+  background-color: rgba(0,0,0,0.4);/* Highlight on hover */
+}
+
+
+
 
 /* Responsive Styles */
 
@@ -165,6 +207,9 @@ h1 {
   .bottom p {
     font-size: 0.8rem;
     justify-content: space-between;
+  }
+  .suggestions {
+    width: 70%;
   }
 
 }
@@ -227,6 +272,10 @@ h1 {
   .app .bottom {
     width: 80%;  
   }  
+
+  .suggestions {
+    width: 30%; /* Decreased width for tablets */
+  }
 }
 
 /* 1024px and above (desktop) */
@@ -245,7 +294,7 @@ h1 {
 
   .container {
     max-width: 700px;
-    height: 590px;
+    height: 500px;
   }
 
   .app .top {
@@ -257,6 +306,10 @@ h1 {
   .app .bottom {
     width: 100%;  
   }  
+
+  .suggestions {
+    width: 30%; /* Decreased width for desktop */
+  }
 
 }
 

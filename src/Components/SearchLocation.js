@@ -8,6 +8,8 @@ function SearchLocation() {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
 
+  const [suggestions, setSuggestions] = useState([]);
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -40,7 +42,33 @@ function SearchLocation() {
     if (event.key === "Enter") {
       fetchWeather(location);
       setLocation("");
+    } else {
+      setQuery(event.target.value);
+      fetchSuggestions(event.target.value);
     }
+  };
+
+  /* Fetching Suggestions */
+  const fetchSuggestions = async (input) => {
+    if (input.length > 2) {
+      try {
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?city=${input}&format=json&limit=10`
+        );
+        setSuggestions(response.data);
+      } catch (error) {
+        console.error("Error fetching Suggestions:", error);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (suggestions) => {
+    const location = `${suggestions.display_name}`;
+    setLocation(location);
+    fetchWeather(location);
+    setSuggestions([]);
   };
 
   return (
@@ -48,12 +76,27 @@ function SearchLocation() {
       <div className="search">
         <input
           value={location}
-          onChange={(event) => setLocation(event.target.value)} // Update location based on user input
-          onKeyPress={searchLocation} // Trigger search on "Enter"
+          onChange={(event) => setLocation(event.target.value)}
+          onKeyPress={searchLocation}
           placeholder="Enter Location"
           type="text"
         />
+        <div className="suggestionlist">
+          {suggestions.length > 0 && (
+            <ul className="suggestions">
+              {suggestions.map((suggestions) => (
+                <li
+                  key={suggestions.place_id}
+                  onClick={() => handleSuggestionClick(suggestions)}
+                >
+                  {suggestions.display_name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
+
       {loading && (
         <div className="loader-container">
           <div className="loader"></div>
